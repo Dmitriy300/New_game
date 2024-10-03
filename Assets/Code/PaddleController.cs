@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class PaddleController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public float speed = 10f;
+    public float boundary = 8f;
+    private void Update()
     {
-        
-    }
+        float moveHorizontal = Input.GetAxis("Horizontal");
 
-    // Update is called once per frame
-    void Update()
-    {
+        Vector3 newPosition = transform.position + new Vector3(moveHorizontal * speed * Time.deltaTime, 0, 0);
+        newPosition.x = Mathf.Clamp(newPosition.x, -boundary, boundary);
         
+        transform.position = newPosition;
     }
 }
