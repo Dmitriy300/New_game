@@ -30,7 +30,7 @@ public class BallController : MonoBehaviour
         }
     }
 
-    private void LaunchBall()
+    public void LaunchBall()
     {
         _rigidbody.velocity = new Vector3(speed, speed, 0);
         _isPlaying = true;
@@ -78,6 +78,17 @@ public class BallController : MonoBehaviour
         transform.position = paddle.position + new Vector3(0, 0, 0); 
         _rigidbody.velocity = Vector3.zero; 
         _isPlaying = false; 
+    }
+
+    public bool GameOver { get; private set; }
+
+    // Пример метода, который проверяет условия окончания игры
+    private void CheckGameOver()
+    {
+        if (lives <= 0)
+        {
+            GameOver = true;
+        }
     }
 
     private void EndGame()
