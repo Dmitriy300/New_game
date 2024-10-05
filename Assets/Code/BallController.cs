@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof (Rigidbody))]
+[RequireComponent(typeof (AudioSource))]
 public class BallController : MonoBehaviour
 {
     public float speed = 10.0f;
@@ -13,7 +12,6 @@ public class BallController : MonoBehaviour
     private Rigidbody _rigidbody;
     private bool _isPlaying = false;
     private AudioSource _audioSource;
-
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -21,7 +19,6 @@ public class BallController : MonoBehaviour
         RespawnBall();
         _audioSource = GetComponent<AudioSource>();
     }
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space) && !_isPlaying)
@@ -29,13 +26,11 @@ public class BallController : MonoBehaviour
             LaunchBall();
         }
     }
-
     public void LaunchBall()
     {
         _rigidbody.velocity = new Vector3(speed, speed, 0);
         _isPlaying = true;
     }
-
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Paddle"))
@@ -52,13 +47,10 @@ public class BallController : MonoBehaviour
 
         else if (collision.gameObject.CompareTag("Block"))
         {
-            Destroy(collision.gameObject); 
-            Vector3 bounceDirection = Vector3.Reflect(_rigidbody.velocity.normalized, collision.contacts[0].normal);
-            _rigidbody.velocity = bounceDirection * speed;
+            Destroy(collision.gameObject);
             _audioSource.PlayOneShot(hitSoundBlock);
         }
     }
-
     private void MissedBall()
     {
         lives--; 
@@ -72,17 +64,13 @@ public class BallController : MonoBehaviour
             RespawnBall(); 
         }
     }
-
     private void RespawnBall()
     {
         transform.position = paddle.position + new Vector3(0, 0, 0); 
         _rigidbody.velocity = Vector3.zero; 
         _isPlaying = false; 
     }
-
     public bool GameOver { get; private set; }
-
-    // Пример метода, который проверяет условия окончания игры
     private void CheckGameOver()
     {
         if (lives <= 0)
@@ -90,11 +78,9 @@ public class BallController : MonoBehaviour
             GameOver = true;
         }
     }
-
     private void EndGame()
     {
         Debug.Log("Game Over");
-
     }
 }
 

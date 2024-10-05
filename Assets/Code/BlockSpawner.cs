@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class BlockSpawner : MonoBehaviour
 {
-    public GameObject blockPrefab; // Префаб блока
-    public int rows = 5; // Количество рядов
-    public int columns = 8; // Количество колонн
-    public float blockWidth = 1.0f; // Ширина блока
-    public float blockHeight = 0.5f; // Высота блока
-    public float startingX = -7f; // Начальная позиция по X
-    public float startingY = 4f; // Начальная позиция по Y
+    public GameObject blockPrefab; 
+    public int rows = 5; 
+    public int columns = 8; 
+    public float blockWidth = 1.0f;
+    public float blockHeight = 0.5f;
+    public float startingX = -7f;
+    public float startingY = 4f;
 
     public Color[] rowColors;
 
@@ -20,12 +20,11 @@ public class BlockSpawner : MonoBehaviour
     {
         SpawnBlocks();
     }
-
     public List<GameObject> SpawnBlocks()
     {
         ClearBlocks();
-              
-        float horizontalspacing = 0.3f; // Расстояние между блоками
+         
+        float horizontalspacing = 0.3f;
         float verticalSpacing = 0.3f;
 
         for (int row = 0; row < rows; row++)
@@ -34,42 +33,34 @@ public class BlockSpawner : MonoBehaviour
             {
                 Vector3 blockPosition = new Vector3(startingX + column * (blockWidth + horizontalspacing), startingY - row * (blockHeight + verticalSpacing), 0);
 
-                Quaternion blockRotation = Quaternion.Euler(0, 0, 0); // Угол поворота блока по умолчанию
+                Quaternion blockRotation = Quaternion.Euler(0, 0, 0);
                 GameObject block = Instantiate(blockPrefab, blockPosition, blockRotation);
                 spawnedBlocks.Add(block);
-
-                // Вывод расстояния между текущим и следующим блоком
-                if (column < columns - 1) // Проверяем, есть ли следующий блок в строке
+                                
+                if (column < columns - 1) 
                 {
                     float distance = blockWidth + horizontalspacing + verticalSpacing;
 
                 }
                 
-                if (row < rowColors.Length) // Обеспечиваем, что индекс не выходит за пределы массива
+                if (row < rowColors.Length) 
                 {
                     Color blockColor = rowColors[row];
-                    block.GetComponent<Renderer>().material.color = blockColor; // Устанавливаем цвет блока
-                }
-                
-
+                    block.GetComponent<Renderer>().material.color = blockColor; 
+                }              
             }
         }
-
         return spawnedBlocks;
-        
     }
     public void ClearBlocks()
     {
         foreach (GameObject block in spawnedBlocks)
         {
-            Destroy(block); // Уничтожить блоки
+            Destroy(block); 
         }
-        spawnedBlocks.Clear(); // Очистить список
+
+        spawnedBlocks.Clear(); 
     }
-    public void RemoveBlock(GameObject block)
-    {
-        // Убрать блок из списка в GameController
-        FindObjectOfType<GameController>().RemoveBlock(block);
-    }
+  
 }
 
